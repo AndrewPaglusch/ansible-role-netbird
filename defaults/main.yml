@@ -1,0 +1,9 @@
+---
+# URL of the NetBird management server
+netbird_management_url: "https://netbird.example.com:443"
+
+# Extra flags to pass to `netbird up`. Each list item is appended verbatim
+# Ex:
+#   netbird_extra_flags:
+#     - --disable-dns
+netbird_extra_flags: []
