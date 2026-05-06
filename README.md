@@ -71,6 +71,10 @@ This example disables NetBird's DNS handling and sets a custom hostname:
           - --hostname {{ inventory_hostname_short }}
 ```
 
+## Updating Flags
+
+Changes to `netbird_extra_flags` are detected and re-applied automatically on the next role run. The host's mesh IP is preserved, but expect a brief mesh connectivity blip while the new flags are applied.
+
 ## Setup Key Management
 
 This role does not generate setup keys. You must create them ahead of time in your NetBird management dashboard and provide them via a variable. It's recommended to store setup keys using Ansible Vault.

@@ -60,8 +60,18 @@
   changed_when: false
   failed_when: false
 
-- name: Register host with the netbird mesh
-  ansible.builtin.command:
-    cmd: "netbird up --setup-key {{ netbird_setup_key }} --management-url {{ netbird_management_url }} {{ netbird_extra_flags | join(' ') }}"
-  when: "'Management: Connected' not in netbird_status.stdout"
+- name: Track desired netbird flags
+  ansible.builtin.copy:
+    content: "{{ (netbird_management_url ~ ' ' ~ (netbird_extra_flags | join(' '))) | hash('sha256') }}"
+    dest: /var/lib/netbird/.ansible-stamp
+    mode: '0600'
+  register: netbird_stamp
+
+- name: Apply netbird config
+  ansible.builtin.shell: >-
+    netbird down 2>/dev/null;
+    netbird up --setup-key {{ netbird_setup_key }}
+    --management-url {{ netbird_management_url }}
+    {{ netbird_extra_flags | join(' ') }}
+  when: "netbird_stamp is changed or 'Management: Connected' not in netbird_status.stdout"
   no_log: true
