@@ -7,3 +7,7 @@ netbird_management_url: "https://netbird.example.com:443"
 #   netbird_extra_flags:
 #     - --disable-dns
 netbird_extra_flags: []
+
+# Package state for the netbird package. Set to `latest` to always upgrade
+# to the newest version available in the NetBird repos on each run.
+netbird_package_state: present

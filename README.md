@@ -34,6 +34,7 @@ A simple and opinionated Ansible role for installing the NetBird agent and regis
 |----------|-------------|---------|
 | `netbird_management_url` | URL of the NetBird management server | `"https://netbird.example.com:443"` |
 | `netbird_extra_flags` | List of extra flags appended verbatim to `netbird up` | `[]` (empty list) |
+| `netbird_package_state` | Package state for the `netbird` package. Set to `latest` to upgrade to the newest version on each run | `present` |
 
 ## Example Playbooks
 

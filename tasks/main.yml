@@ -1,13 +1,6 @@
 ---
-- name: Check if netbird is installed
-  ansible.builtin.stat:
-    path: /usr/bin/netbird
-  register: netbird_binary
-
 - name: Install NetBird (Debian)
-  when:
-    - not netbird_binary.stat.exists
-    - ansible_facts['os_family'] == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
   block:
     - name: Install apt prerequisites
       ansible.builtin.apt:
@@ -34,12 +27,10 @@
     - name: Install netbird package
       ansible.builtin.apt:
         name: netbird
-        state: present
+        state: "{{ netbird_package_state }}"
 
 - name: Install NetBird (RHEL)
-  when:
-    - not netbird_binary.stat.exists
-    - ansible_facts['os_family'] == 'RedHat'
+  when: ansible_facts['os_family'] == 'RedHat'
   block:
     - name: Add NetBird YUM repository
       ansible.builtin.yum_repository:
@@ -55,7 +46,7 @@
     - name: Install netbird package
       ansible.builtin.dnf:
         name: netbird
-        state: present
+        state: "{{ netbird_package_state }}"
 
 - name: Ensure netbird service is enabled and running
   ansible.builtin.systemd:
